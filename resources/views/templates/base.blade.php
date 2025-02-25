@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @routes
     <link rel="stylesheet" href="{{ asset('lib/bootstrap/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/all.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/dataTables/dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/dataTables/responsive.min.css') }}">
     @stack('styles')
@@ -25,7 +24,6 @@
     <script src="{{ asset('lib/sweetalert/index.js') }}"></script>
     <script src="{{ asset('lib/dataTables/dataTables.min.js') }}"></script>
     <script src="{{ asset('lib/dataTables/responsive.min.js') }}"></script>
-    <script src="{{ asset('lib/orgchart/orgchart.js') }}"></script>
     <script>
         const langFile = "{{ asset('lib/dataTables/Spanish.json') }}";
     </script>
