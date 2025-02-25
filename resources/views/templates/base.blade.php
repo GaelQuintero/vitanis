@@ -8,6 +8,8 @@
     @routes
     <link rel="stylesheet" href="{{ asset('lib/bootstrap/index.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/dataTables/dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/dataTables/responsive.min.css') }}">
     @stack('styles')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <title>@yield('title')</title>
@@ -21,6 +23,9 @@
     <script src="{{ asset('lib/jquery/index.js') }}"></script>
     <script src="{{ asset('lib/bootstrap/index.js') }}"></script>
     <script src="{{ asset('lib/sweetalert/index.js') }}"></script>
+    <script src="{{ asset('lib/dataTables/dataTables.min.js') }}"></script>
+    <script src="{{ asset('lib/dataTables/responsive.min.js') }}"></script>
+    <script src="{{ asset('lib/orgchart/orgchart.js') }}"></script>
     <script>
         const langFile = "{{ asset('lib/dataTables/Spanish.json') }}";
     </script>
