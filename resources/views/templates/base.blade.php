@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('lib/dataTables/dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/dataTables/responsive.min.css') }}">
     @stack('styles')
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/style.css') }}"> --}}
     <title>@yield('title')</title>
     <meta id='csrf' name='csrf-token' content='{{ csrf_token() }}'>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
