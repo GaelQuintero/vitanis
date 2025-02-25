@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('lib/bootstrap/index.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/dataTables/dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/dataTables/responsive.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/all.css') }}">
     @stack('styles')
     {{-- <link rel="stylesheet" href="{{ asset('css/style.css') }}"> --}}
     <title>@yield('title')</title>
