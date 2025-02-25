@@ -12,11 +12,15 @@
     @stack('styles')
     {{-- <link rel="stylesheet" href="{{ asset('css/style.css') }}"> --}}
     <title>@yield('title')</title>
+     <!-- Scripts de SweetAlert2 -->
+     <script src="{{ asset('lib/sweetalert/index.js') }}"></script>
+     <!-- Estilos de SweetAlert2 -->
+     <link rel="stylesheet" href="{{ asset('lib/sweetalert/dark.css') }}">
     <meta id='csrf' name='csrf-token' content='{{ csrf_token() }}'>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 
-<body style="background-color: #eaeded;">
+<body class="bg-dark text-light" data-bs-theme="dark">
     @yield('body')
     @include('templates.modal')
     <script src="{{ asset('lib/jquery/index.js') }}"></script>
