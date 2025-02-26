@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterCategoryRequest;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,40 @@ class CategoriaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        //
+
+        //   if ($request->expectsJson()) {
+
+        //     $data = Categoria::query();
+
+        //     $data = $data->get();
+
+        //     // Devolver los registros seleccionados
+        //     return response()->json(['data' => $data]);
+        // }
+        // return view('categoria.index');
+
+        if ($request->expectsJson()) {
+
+            $data = Categoria::query();
+            if ($request->categoria) {
+                $data = $data->where('nombre', 'like', '%' . $request->categoria . '%');
+            }
+
+            // if ($request->categoria_id) {
+            //     $data = $data->where('categoria_id', $request->categoria_id);
+            // }
+
+            $data = $data->get();
+
+            // Devolver los registros seleccionados
+            return response()->json(['data' => $data]);
+        }
+        $categorias = Categoria::all();
+        return view('categoria.index', compact('categorias'));
     }
 
     /**
@@ -21,14 +53,20 @@ class CategoriaController extends Controller
     public function create()
     {
         //
+        return view('categoria.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RegisterCategoryRequest $request)
     {
         //
+
+        // Crear un producto
+        Categoria::create($request->validated());
+
+        return response()->json(["message" => "Se ha creado el registro de forma exitosa"]);
     }
 
     /**
@@ -42,24 +80,37 @@ class CategoriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categoria $categoria)
+    public function edit(int $id)
     {
         //
+        $categoria = Categoria::find($id);
+       // $categorias = Categoria::all();
+        return view('categoria.edit', compact('categoria'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categoria $categoria)
+    public function update(Request $request, int $id)
     {
-        //
+        $inventario = Categoria::find($id);
+        $inventario->update($request->all());
+        return response()->json(["message" => "Se ha actualizado el registro de forma exitosa"]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categoria $categoria)
+    public function destroy(Categoria $categoria, int $id)
     {
         //
+
+        $categoria = Categoria::find($id);
+        // Eliminar el registro seleccionado y enviar respuesta
+        if ($categoria->delete()) {
+            return response()->json(["message" => "Se ha eliminado el registro de forma exitosa"]);
+        }
+        // respuesta de error
+        return response()->json(["Hubo un problema al momento de realizar la operación"], 400);
     }
 }

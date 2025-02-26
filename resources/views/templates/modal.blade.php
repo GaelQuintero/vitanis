@@ -1,6 +1,6 @@
-<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div id="modalSize" class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content" style="background-color: #DFE6EC;">
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-theme="dark">
+    <div id="modalSize" class="modal-dialog modal-dialog-centered modal-dialog-scrollable" data-bs-theme="dark">
+        <div class="modal-content">
             <div class="my-0 py-0 modal-header" style="background: #20346A; padding: 0.5rem !important;">
                 <h2 style="color:white; padding-left: 1rem !important; color: #DFE6EC; font-size: 1.2rem !important;"
                     class="modal-title w-100 d-flex justify-content-center justify-content-lg-start">

@@ -14,7 +14,17 @@
     <!-- Scripts de SweetAlert2 -->
     <script src="{{ asset('lib/sweetalert/index.js') }}"></script>
     <!-- Estilos de SweetAlert2 -->
-    <link rel="stylesheet" href="{{ asset('@sweetalert2/theme-dark/dark.css') }}">
+    <link rel="stylesheet" href="{{ asset('lib/sweetalert/dark.css') }}">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="{{ asset('lib/datatables/dataTables.min.css') }}">
+
+    <!-- jQuery (ya lo tienes) -->
+    <script src="{{ asset('lib/jquery/index.js') }}"></script>
+
+    <!-- DataTables JS -->
+    <script src="{{ asset('lib/datatables/dataTables.min.js') }}"></script>
+
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
