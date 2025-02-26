@@ -1,11 +1,11 @@
-let movimientosDT;
+let usuariosDT;
 
 document.addEventListener("DOMContentLoaded", async () => {
-    initMovimientosTable();
+    initUsuariosTable();
 });
 
-const initMovimientosTable = async () => {
-    movimientosDT = $("#tableMovimientos").DataTable({
+const initUsuariosTable = async () => {
+    usuariosDT = $("#tableUsuarios").DataTable({
         order: [],
         searching: false,
         responsive: true,
@@ -14,14 +14,15 @@ const initMovimientosTable = async () => {
             url: langFile,
         },
         ajax: {
-            url: route("movimientos.index"),
+            url: route("usuarios.index"),
             type: "GET",
             headers: {
                 "X-CSRF-TOKEN": $("#csrf").attr("content"),
                 Accept: "application/json",
             },
             data: (d) => {
-                d.tipo = $("#tipo").val();
+                d.name = $("#name").val();
+                d.email = $("#email").val();
                 // d.codigo = $("#codigo").val();
                 // d.categoria_id = $("#categoria_id").val();
                 return d;
@@ -29,27 +30,22 @@ const initMovimientosTable = async () => {
         },
         columns: [
             {
-                data: "producto.nombre",
+                data: "name",
                 defaultContent: "",
                 render: (data) => data ?? "",
             },
             {
-                data: "tipo",
-                defaultContent: "",
-                render: (data) => data ?? "",
-            },
-            {
-                data: "cantidad",
-                defaultContent: "",
-                render: (data) => data ?? "",
-            },
-            {
-                data: "descripcion",
+                data: "email",
                 defaultContent: "",
                 render: (data) => data ?? "",
             },
             {
                 data: "created_at",
+                defaultContent: "",
+                render: (data) => data ?? "",
+            },
+            {
+                data: "",
                 defaultContent: "",
                 render: (data) => data ?? "",
             },
@@ -65,19 +61,19 @@ const initMovimientosTable = async () => {
 
 const buscarBtn = document.getElementById("buscarBtn");
 buscarBtn.addEventListener("click", function () {
-    movimientosDT.ajax.reload();
+    usuariosDT.ajax.reload();
 });
 
 const limpiarBtn = document.getElementById("limpiarBtn");
 limpiarBtn.addEventListener("click", function () {
     filterForm.reset();
-    movimientosDT.ajax.reload();
+    usuariosDT.ajax.reload();
 });
 
 const nuevoBtn = document.getElementById("nuevoBtn");
 nuevoBtn.addEventListener("click", async function () {
     try {
-        const url = route("movimientos.create");
+        const url = route("usuarios.create");
         const req = await fetch(url);
         if (!req.ok) {
             throw new Error("Error al realizar la solicitud");
@@ -93,7 +89,7 @@ nuevoBtn.addEventListener("click", async function () {
 
         // Indicar el titulo del modal
         document.getElementById("modalTitle").innerHTML =
-            "Movimientos | Registrar";
+            "Usuarios | Registrar";
 
         // Indicar el cuerpo del modal
         document.getElementById("modalBody").innerHTML = view;
@@ -117,9 +113,9 @@ const registrar = async () => {
         didOpen: () => Swal.showLoading(),
     });
     // URL para registrar
-    const url = route("movimientos.store");
+    const url = route("usuarios.store");
     // Tomar el formulario de registro por si id
-    const form = document.getElementById("registroMovimientoForm");
+    const form = document.getElementById("registroUsuariosForm");
     // Crear un objeto formData
     const formData = new FormData(form);
     // Indicar el metodo a usar
@@ -137,7 +133,7 @@ const registrar = async () => {
                 text: res.message || "Se registró correctamente.",
             });
             $(".modal").modal("hide");
-            movimientosDT.ajax.reload();
+            usuariosDT.ajax.reload();
         } else {
             let errorMessage =
                 res.message || "Ocurrió un error durante el registro.";
@@ -168,7 +164,7 @@ const editar = async (id) => {
     event.preventDefault();
     try {
         // Asignamos la ruta
-        const url = route("movimientos.edit", id);
+        const url = route("usuarios.edit", id);
 
         // Hacemos el request
         const req = await fetch(url);
@@ -188,7 +184,7 @@ const editar = async (id) => {
         document.getElementById("modalSize").classList.remove("modal-xl");
 
         // Set modal title
-        document.getElementById("modalTitle").innerHTML = "Movimiento | Editar";
+        document.getElementById("modalTitle").innerHTML = "Usuario | Editar";
 
         // Set the modal's body to the view
         document.getElementById("modalBody").innerHTML = view;
@@ -212,9 +208,9 @@ const update = async (id) => {
     });
 
     // URL para registrar
-    const url = route("movimientos.update", { movimiento: id } );
+    const url = route("usuarios.update", id /*{ movimiento: id }*/ );
     // Tomar el formulario de registro por si id
-    const form = document.getElementById("editFormMovimiento");
+    const form = document.getElementById("editFormUsuarios");
     // Crear un objeto formData
     const formData = new FormData(form);
     // Indicar el metodo a usar
@@ -233,7 +229,7 @@ const update = async (id) => {
                 text: res.message || "Se editó correctamente.",
             });
             $(".modal").modal("hide");
-            movimientosDT.ajax.reload();
+            usuariosDT.ajax.reload();
         } else {
             let errorMessage =
                 res.message || "Ocurrió un error durante el registro.";
@@ -271,7 +267,7 @@ const eliminar = async (id) => {
         cancelButtonText: "Cancelar",
     }).then(async (result) => {
         if (result.isConfirmed) {
-            const url = route("movimientos.destroy", id);
+            const url = route("usuarios.destroy", { usuario: id });
             const init = setMethodHeaders("DELETE");
             const req = await fetch(url, init);
             try {
@@ -282,7 +278,7 @@ const eliminar = async (id) => {
                         text: res.message || "Registro eliminado",
                     });
                     $(".modal").modal("hide");
-                    movimientosDT.ajax.reload();
+                    usuariosDT.ajax.reload();
                 } else {
                     // If there were validation errors or other issues
                     Swal.fire({

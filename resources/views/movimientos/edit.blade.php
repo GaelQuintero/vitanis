@@ -1,16 +1,16 @@
 @extends('templates.base')
 @section('body')
-    <form class="row" id="editForm" autocomplete="off">
+    <form class="row" id="editFormMovimiento" autocomplete="off">
 
         <div class="col-md-12 mb-3">
             <label class="form-label filtro-label">Producto</label>
             <select class="form-control" id="producto_id" name="producto_id">
                 <option value="" selected>Seleccione un producto</option>
                 @foreach ($productos as $producto)
-                <option value="{{ $producto->producto_id }}"
+                <option value="{{ $producto->id }}"
                     {{ isset($movimiento) && $movimiento->producto_id == $producto->id ? 'selected' : '' }}>
                     {{ $producto->nombre }}
-                </option>
+                </option>                
             @endforeach
             </select>
         </div>
@@ -36,7 +36,7 @@
         </div>
 
         <div class="text-end">
-            <button onclick="update();" class="btn btn-primary">Actualizar</button>
+            <button onclick="update({{$movimiento->id}});" class="btn btn-primary">Actualizar</button>
         </div>
     </form>
 @endsection

@@ -57,10 +57,20 @@ class MovimientoController extends Controller
     public function store(RegisterMovementRequest $request)
     {
         //
-         // Crear un producto
-         Movimiento::create($request->validated());
+        // Crear un producto
+        $producto = Inventario::find($request->producto_id);
+        if ($request->tipo == 'entrada') {
+            $producto->cantidad_actual += $request->cantidad;
+        } else {
+            if ($producto->cantidad_actual < $request->cantidad) {
+                return response()->json(["message" => "No se puede realizar la salida, la cantidad actual es menor a la solicitada"], 400);
+            }
+            $producto->cantidad_actual -= $request->cantidad;
+        }
+        $producto->save();
+        Movimiento::create($request->validated());
 
-         return response()->json(["message" => "Se ha creado el registro de forma exitosa"]);
+        return response()->json(["message" => "Se ha creado el registro de forma exitosa"]);
     }
 
     /**
@@ -76,15 +86,15 @@ class MovimientoController extends Controller
      */
     public function edit(int $id)
     {
-        // Buscar el movimiento por ID, con la relación inventario
-    $movimiento = Movimiento::with('inventario')->find($id); // Lanza 404 si no existe
-    
-    // Obtener todos los productos del inventario
-    $productos = Inventario::all();
-    $movimientos = Movimiento::all();
+        // Busca el movimiento por ID, con la relación inventario
+        // $movimiento = Movimiento::with('inventario')->find($id); // Lanza 404 si no existe
+        $movimiento = Movimiento::find($id);
+        // Obtener todos los productos del inventario
+        $productos = Inventario::all();
+        //$movimientos = Movimiento::all();
 
-    // Enviar variables a la vista
-    return view('movimientos.edit', compact('movimiento', 'productos')); // Se usa "movimiento" en singular
+        // Enviar variables a la vista
+        return view('movimientos.edit', compact('movimiento', 'productos')); // Se usa "movimiento" en singular
     }
 
     /**
@@ -94,6 +104,18 @@ class MovimientoController extends Controller
     {
         //
         $movimiento = Movimiento::find($id);
+        $producto = Inventario::find($request->producto_id);
+        if ($request->tipo == 'entrada') { 
+            $cantidad_anterior = $movimiento->cantidad;
+            $producto->cantidad_actual -= $cantidad_anterior;
+            $producto->cantidad_actual += $request->cantidad;
+        } else {
+            if ($producto->cantidad_actual < $request->cantidad) {
+                return response()->json(["message" => "No se puede realizar la salida, la cantidad actual es menor a la solicitada"], 400);
+            }
+            $producto->cantidad_actual -= $request->cantidad;
+        }
+        $producto->save();
         $movimiento->update($request->all());
         return response()->json(["message" => "Se ha actualizado el registro de forma exitosa"]);
     }
@@ -104,7 +126,7 @@ class MovimientoController extends Controller
     public function destroy(Movimiento $movimiento)
     {
         //
-         //
+        //
         // Eliminar el registro seleccionado y enviar respuesta
         if ($movimiento->delete()) {
             return response()->json(["message" => "Se ha eliminado el registro de forma exitosa"]);

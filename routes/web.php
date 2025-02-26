@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\MovimientoController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('inventario', InventarioController::class)->names('inventario');
     Route::resource('categoria', CategoriaController::class)->names('categoria');
     Route::resource('movimientos', MovimientoController::class)->names('movimientos');
+    Route::resource('usuarios', UserController::class)->names('usuarios');
 });
 
 require __DIR__.'/auth.php';
