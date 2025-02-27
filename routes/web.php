@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('categoria', CategoriaController::class)->names('categoria');
     Route::resource('movimientos', MovimientoController::class)->names('movimientos');
     Route::resource('usuarios', UserController::class)->names('usuarios');
+    Route::get('/inicio', [InventarioController::class, 'inicio'])->name('inicio');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

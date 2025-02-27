@@ -13,6 +13,12 @@ const initCategoriaTable = async () => {
         language: {
             url: langFile,
         },
+        columnDefs: [
+            {
+                orderable: false,
+                targets: [1],
+            },
+        ],
         ajax: {
             url: route("categoria.index"),
             type: "GET",

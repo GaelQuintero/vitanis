@@ -33,6 +33,12 @@ class MovimientoController extends Controller
             // }
 
             $data = $data->get();
+            $data = $data->map(function ($item) {
+                // Calcular importe como precio * cantidad y agregarlo como nueva columna
+                $item->fecha_movimiento = $item->created_at->format('d-m-Y');
+
+                return $item;
+            });
 
             // Devolver los registros seleccionados
             return response()->json(['data' => $data]);
@@ -76,10 +82,25 @@ class MovimientoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Movimiento $movimiento)
+    public function show(int $id)
     {
-        //
+        // Obtener los movimientos filtrados por producto con su relación de inventario
+        $movimientos = Movimiento::with('producto')
+            ->where('producto_id', $id)
+            ->get();
+
+        // Formatear los datos para Google Charts
+        $data = [];
+        foreach ($movimientos as $movimiento) {
+            $data[] = [
+                date('Y-m-d', strtotime($movimiento->created_at)), // Fecha como string
+                $movimiento->tipo == 'entrada' ? (int) $movimiento->cantidad : 0, // Entradas
+                $movimiento->tipo == 'salida' ? (int) $movimiento->cantidad : 0  // Salidas
+            ];
+        }
+        return response()->json(['data' => $data]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -105,7 +126,7 @@ class MovimientoController extends Controller
         //
         $movimiento = Movimiento::find($id);
         $producto = Inventario::find($request->producto_id);
-        if ($request->tipo == 'entrada') { 
+        if ($request->tipo == 'entrada') {
             $cantidad_anterior = $movimiento->cantidad;
             $producto->cantidad_actual -= $cantidad_anterior;
             $producto->cantidad_actual += $request->cantidad;

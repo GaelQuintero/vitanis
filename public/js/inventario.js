@@ -13,6 +13,12 @@ const initInventarioTable = async () => {
         language: {
             url: langFile,
         },
+        columnDefs: [
+            {
+                orderable: false,
+                targets: [6],
+            },
+        ],
         ajax: {
             url: route("inventario.index"),
             type: "GET",

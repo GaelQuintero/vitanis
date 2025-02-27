@@ -13,6 +13,12 @@ const initMovimientosTable = async () => {
         language: {
             url: langFile,
         },
+        columnDefs: [
+            {
+                orderable: false,
+                targets: [5],
+            },
+        ],
         ajax: {
             url: route("movimientos.index"),
             type: "GET",
@@ -49,7 +55,7 @@ const initMovimientosTable = async () => {
                 render: (data) => data ?? "",
             },
             {
-                data: "created_at",
+                data: "fecha_movimiento",
                 defaultContent: "",
                 render: (data) => data ?? "",
             },

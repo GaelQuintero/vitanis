@@ -13,6 +13,12 @@ const initUsuariosTable = async () => {
         language: {
             url: langFile,
         },
+        columnDefs: [
+            {
+                orderable: false,
+                targets: [3],
+            },
+        ],
         ajax: {
             url: route("usuarios.index"),
             type: "GET",
@@ -40,12 +46,7 @@ const initUsuariosTable = async () => {
                 render: (data) => data ?? "",
             },
             {
-                data: "created_at",
-                defaultContent: "",
-                render: (data) => data ?? "",
-            },
-            {
-                data: "",
+                data: "fecha_registro",
                 defaultContent: "",
                 render: (data) => data ?? "",
             },

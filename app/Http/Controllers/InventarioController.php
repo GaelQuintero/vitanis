@@ -27,7 +27,7 @@ class InventarioController extends Controller
                 $data = $data->where('codigo', $request->codigo);
             }
 
-            
+
             if ($request->categoria_id) {
                 $data = $data->where('categoria_id', $request->categoria_id);
             }
@@ -105,5 +105,12 @@ class InventarioController extends Controller
         }
         // respuesta de error
         return response()->json(["Hubo un problema al momento de realizar la operación"], 400);
+    }
+
+    public function inicio(Request $request)
+    {
+
+        $productos = Inventario::all();
+        return view('inicio', compact('productos'));
     }
 }

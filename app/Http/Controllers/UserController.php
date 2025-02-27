@@ -27,6 +27,13 @@ class UserController extends Controller
 
             // Obtener los registros filtrados
             $data = $data->get();
+            $data = $data->map(function ($item) {
+                // Calcular importe como precio * cantidad y agregarlo como nueva columna
+                $item->fecha_registro = $item->created_at->format('d-m-Y');
+
+                return $item;
+            });
+
 
             // Responder con JSON
             return response()->json(['data' => $data]);
