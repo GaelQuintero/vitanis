@@ -24,18 +24,25 @@ WORKDIR /var/www/html
 # Copiar archivos del proyecto
 COPY . .
 
+# Crear los directorios necesarios si no existen
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache
+
 # Instalar dependencias de Laravel
 RUN composer install --no-dev --optimize-autoloader
 
 # Crear el usuario www-data si no existe
-RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+RUN id www-data || adduser --disabled-password --gecos '' www-data
 
 # Establecer permisos y propietario
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Exponer el puerto 80
-EXPOSE 80
+# Exponer el puerto 10000 (Render usa este puerto por defecto)
+EXPOSE 10000
+
+# Configurar Apache para escuchar en el puerto 10000
+RUN echo "Listen 10000" > /etc/apache2/ports.conf
+RUN sed -i 's/80/10000/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/default-ssl.conf
 
 # Comando para iniciar Apache
 CMD ["apache2-foreground"]
