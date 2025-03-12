@@ -27,8 +27,12 @@ COPY . .
 # Instalar dependencias de Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Establecer permisos
+RUN addgroup --system www-data && adduser --system --ingroup www-data www-data
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+
+# Establecer permisos
+RUN chmod -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Exponer el puerto 80
 EXPOSE 80
