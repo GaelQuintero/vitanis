@@ -32,7 +32,8 @@ RUN composer install --no-dev --optimize-autoloader
 
 
 # Establecer permisos
-RUN chmod -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
+
 
 # Exponer el puerto 80
 EXPOSE 80
