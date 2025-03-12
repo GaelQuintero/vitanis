@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterMovementRequest;
+use App\Models\User;
 use App\Models\Inventario;
 use App\Models\Movimiento;
 use Illuminate\Http\Request;
+use App\Models\FailedNotification;
+use App\Notifications\GeneralNotification;
+use App\Http\Requests\RegisterMovementRequest;
 
 class MovimientoController extends Controller
 {
@@ -65,6 +68,9 @@ class MovimientoController extends Controller
         //
         // Crear un producto
         $producto = Inventario::find($request->producto_id);
+        if (!$producto) {
+            return response()->json(["message" => "El producto no existe"], 404);
+        }
         if ($request->tipo == 'entrada') {
             $producto->cantidad_actual += $request->cantidad;
         } else {
@@ -74,7 +80,36 @@ class MovimientoController extends Controller
             $producto->cantidad_actual -= $request->cantidad;
         }
         $producto->save();
-        Movimiento::create($request->validated());
+        $movimiento = Movimiento::create($request->validated());
+        $users = User::all();
+        // foreach ($users as $user) {
+        //     $user->notify(new GeneralNotification(
+        //         'Nuevo movimiento detectado',
+        //         'El articulo ' . $producto->nombre . ' ' . 'ha tenido un movimiento de tipo' . ' ' . $movimiento->tipo . ' ' . 'con una cantidad de ' . ' ' . $movimiento->cantidad . ' ' . 'y el movimiento fue realizado en la fecha: ' . ' ' . $movimiento->created_at,
+        //         url('/movimientos/' . $movimiento->id)
+        //     ));
+        // }
+
+        foreach ($users as $user) {
+            try {
+                // Intentar enviar la notificación
+                $user->notify(new GeneralNotification(
+                    'Nuevo movimiento detectado',
+                    'El articulo ' . $producto->nombre . ' ' . 'ha tenido un movimiento de tipo' . ' ' . $movimiento->tipo . ' ' . 'con una cantidad de ' . ' ' . $movimiento->cantidad . ' ' . 'y el movimiento fue realizado en la fecha: ' . ' ' . $movimiento->created_at,
+                    url('/movimientos/' . $movimiento->id)
+                ));
+            } catch (\Exception $e) {
+                // Si falla el envío, guardar en la base de datos
+                FailedNotification::create([
+                    'email' => $user->email,
+                    'title' =>   'Nuevo movimiento detectado',
+                    'message' =>   'El articulo ' . $producto->nombre . ' ' . 'ha tenido un movimiento de tipo' . ' ' . $movimiento->tipo . ' ' . 'con una cantidad de ' . ' ' . $movimiento->cantidad . ' ' . 'y el movimiento fue realizado en la fecha: ' . ' ' . $movimiento->created_at,
+                    'url' =>     url('/movimientos/' . $movimiento->id),
+                    'sent' => false
+                ]);
+            }
+        }
+
 
         return response()->json(["message" => "Se ha creado el registro de forma exitosa"]);
     }

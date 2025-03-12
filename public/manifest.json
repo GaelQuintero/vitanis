@@ -1,0 +1,17 @@
+{
+    "name": "Vitannis Inventory",
+    "short_name": "VI",
+    "start_url": "/index.php",
+    "background_color": "#6777ef",
+    "description": "Sistema gestor de inventario de la famosisima Vitannis Inventory:)",
+    "display": "fullscreen",
+    "theme_color": "#6777ef",
+    "icons": [
+        {
+            "src": "logo.PNG",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

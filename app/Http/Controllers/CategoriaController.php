@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterCategoryRequest;
+use App\Models\User;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use App\Models\FailedNotification;
+use App\Notifications\GeneralNotification;
+use App\Http\Requests\RegisterCategoryRequest;
 
 class CategoriaController extends Controller
 {
@@ -64,7 +67,35 @@ class CategoriaController extends Controller
         //
 
         // Crear un producto
-        Categoria::create($request->validated());
+       $categoria = Categoria::create($request->validated());
+       $users = User::all();
+    //    foreach ($users as $user) {
+    //     $user->notify(new GeneralNotification(
+    //         'Nueva categoria agregada',
+    //         'La categoria ' . $categoria->nombre . ' '. 'ha sido agregada',
+    //         url('/categoria/' . $categoria->id)
+    //     ));
+    // }
+
+    foreach ($users as $user) {
+        try {
+            // Intentar enviar la notificación
+            $user->notify(new GeneralNotification(
+                'Nueva categoria agregada',
+                'La categoria ' . $categoria->nombre . ' '. 'ha sido agregada',
+                url('/categoria/' . $categoria->id)
+            ));
+        } catch (\Exception $e) {
+            // Si falla el envío, guardar en la base de datos
+            FailedNotification::create([
+                'email' => $user->email,
+                'title' =>  'Nueva categoria agregada',
+                'message' => 'La categoria: ' . $categoria->nombre . ' ha sido agregada',
+                'url' => url('/categorias/' . $categoria->id),
+                'sent' => false
+            ]);
+        }
+    }
 
         return response()->json(["message" => "Se ha creado el registro de forma exitosa"]);
     }

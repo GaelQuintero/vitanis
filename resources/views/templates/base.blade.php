@@ -13,15 +13,29 @@
     @stack('styles')
     {{-- <link rel="stylesheet" href="{{ asset('css/style.css') }}"> --}}
     <title>@yield('title')</title>
-     <!-- Scripts de SweetAlert2 -->
-     <script src="{{ asset('lib/sweetalert/index.js') }}"></script>
-     <!-- Estilos de SweetAlert2 -->
-     <link rel="stylesheet" href="{{ asset('lib/sweetalert/dark.css') }}">
+    <!-- Scripts de SweetAlert2 -->
+    <script src="{{ asset('lib/sweetalert/index.js') }}"></script>
+    <!-- Estilos de SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('lib/sweetalert/dark.css') }}">
     <meta id='csrf' name='csrf-token' content='{{ csrf_token() }}'>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('lib/spinner/spinner.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    @viteReactRefresh
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.jsx']) --}}
+
 </head>
 
 <body class="bg-dark text-light" data-bs-theme="dark">
+    <!-- Spinner -->
+    {{-- <div id="loading-spinner">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div> --}}
     @yield('body')
     @include('templates.modal')
     <script src="{{ asset('lib/jquery/index.js') }}"></script>
@@ -32,6 +46,18 @@
     <script>
         const langFile = "{{ asset('lib/dataTables/Spanish.json') }}";
     </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{{ asset('sw.js') }}")
+                .then(function(registration) {
+                    console.log("Service Worker registrado con éxito:", registration);
+                })
+                .catch(function(error) {
+                    console.log("Error al registrar el Service Worker:", error);
+                });
+        }
+    </script>
+
 </body>
 <script>
     const setMethodHeaders = (method, body = []) => {
@@ -70,5 +96,6 @@
 </script>
 
 @stack('scripts')
+{{-- <script src="{{asset('lib/spinner/spinner.js')}}"></script> --}}
 
 </html>

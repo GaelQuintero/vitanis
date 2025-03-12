@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterUsersRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\FailedNotification;
+use App\Notifications\GeneralNotification;
+use App\Http\Requests\RegisterUsersRequest;
 
 class UserController extends Controller
 {
@@ -55,7 +57,37 @@ class UserController extends Controller
     {
         // Crear un usuario
 
-        User::create($request->validated());
+        $newUser = User::create($request->validated());
+        $users = User::all();
+
+        // foreach ($users as $user) {
+        //     $user->notify(new GeneralNotification(
+        //         'Nuevo usuario registrado',
+        //         'El usuario ' . $newUser->name . ' ' . 'ha sido registrado con el correo' . ' ' . $newUser->email . ' ' . 'y fue registrado en la fecha: ' . ' ' . $newUser->created_at,
+        //         url('/user/' . $newUser->id)
+        //     ));
+        // }
+
+        foreach ($users as $user) {
+            try {
+                // Intentar enviar la notificación
+                $user->notify(new GeneralNotification(
+                    'Nuevo usuario registrado',
+                    'El usuario ' . $newUser->name . ' ' . 'ha sido registrado con el correo' . ' ' . $newUser->email . ' ' . 'y fue registrado en la fecha: ' . ' ' . $newUser->created_at,
+                    url('/user/' . $newUser->id)
+                ));
+            } catch (\Exception $e) {
+                // Si falla el envío, guardar en la base de datos
+                FailedNotification::create([
+                    'email' => $user->email,
+                    'title' => 'Nuevo usuario registrado',
+                    'message' =>    'El usuario ' . $newUser->name . ' ' . 'ha sido registrado con el correo' . ' ' . $newUser->email . ' ' . 'y fue registrado en la fecha: ' . ' ' . $newUser->created_at,
+                    'url' =>     url('/user/' . $newUser->id),
+                    'sent' => false
+                ]);
+            }
+        }
+
 
         return response()->json(["message" => "Se ha creado el registro de forma exitosa"]);
     }

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Categoria;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
+use App\Models\FailedNotification;
+use App\Notifications\GeneralNotification;
 use App\Http\Requests\RegisterProductRequest;
+// use App\Notifications\ProductCreateNotification;
 
 class InventarioController extends Controller
 {
@@ -57,8 +61,46 @@ class InventarioController extends Controller
     public function store(RegisterProductRequest $request)
     {
         //
-        // Crear un producto
-        Inventario::create($request->validated());
+        // // Crear el producto
+        // $producto = Inventario::create($request->validated());
+
+        // // Obtener solo los IDs de los usuarios para mejorar rendimiento
+        // $userIds = User::pluck('id');
+
+        // // Enviar notificación en cola a todos los usuarios
+        // foreach ($userIds as $userId) {
+        //     User::find($userId)?->notify(new GeneralNotification($producto));
+        // }
+
+        $producto = Inventario::create($request->validated());
+        $users = User::all();
+        // foreach ($users as $user) {
+        //     $user->notify(new GeneralNotification(
+        //         'Nuevo producto creado',
+        //         'El producto: ' . $producto->nombre . ' ' . 'ha sido agregado al inventario',
+        //         url('/productos/' . $producto->id)
+        //     ));
+        // } 
+
+        foreach ($users as $user) {
+            try {
+                // Intentar enviar la notificación
+                $user->notify(new GeneralNotification(
+                    'Nuevo producto creado',
+                    'El producto: ' . $producto->nombre . ' ha sido agregado al inventario',
+                    url('/productos/' . $producto->id)
+                ));
+            } catch (\Exception $e) {
+                // Si falla el envío, guardar en la base de datos
+                FailedNotification::create([
+                    'email' => $user->email,
+                    'title' => 'Nuevo producto creado',
+                    'message' => 'El producto: ' . $producto->nombre . ' ha sido agregado al inventario',
+                    'url' => url('/productos/' . $producto->id),
+                    'sent' => false
+                ]);
+            }
+        }
 
         return response()->json(["message" => "Se ha creado el registro de forma exitosa"]);
     }
@@ -69,6 +111,7 @@ class InventarioController extends Controller
     public function show(Inventario $inventario)
     {
         //
+
     }
 
     /**

@@ -43,7 +43,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Descripción</th>
                             <th scope="col">Codigo</th>
-                            <th scope="col">Cantidad Actual</th>
+                            <th scope="col">Cantidad</th>
                             <th scope="col">Precio</th>
                             <th scope="col">Categoria</th>
                             <th scope="col" width="15%"></th>

@@ -29,11 +29,15 @@
     </div>
 @endsection
 @push('scripts')
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{{ asset('lib/charts/chart.js') }}"></script>
     <script type="text/javascript">
-        google.charts.load('current', {
-            packages: ['corechart', 'bar']
-        });
+        if (typeof google === 'undefined' || typeof google.charts === 'undefined') {
+            console.error("Google Charts no está disponible. Asegúrate de cargarlo localmente.");
+        } else {
+            google.charts.load('current', {
+                packages: ['corechart', 'bar']
+            });
+        }
         google.charts.setOnLoadCallback(drawChart);
 
         async function drawChart() {

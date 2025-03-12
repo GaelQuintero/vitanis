@@ -27,7 +27,7 @@
                 <button class="btn btn-primary" id="nuevoBtn">Nuevo </button>
             </div>
             <div class="col-md-12 mb-3">
-                <table class="table" id="tableMovimientos" data-bs-theme="dark">
+                <table class="table " id="tableMovimientos" data-bs-theme="dark">
                     <thead class="table table-dark" >
                         <tr>
                             <th scope="col">Producto</th>

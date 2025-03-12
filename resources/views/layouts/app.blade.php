@@ -24,6 +24,7 @@
 
     <!-- DataTables JS -->
     <script src="{{ asset('lib/datatables/dataTables.min.js') }}"></script>
+    <link rel="stylesheet" href="{{asset('lib/spinner/spinner.css')}}">
 
 
     <!-- Scripts -->
@@ -31,6 +32,14 @@
 </head>
 
 <body class="font-sans antialiased">
+    <!-- Spinner -->
+    <div id="loading-spinner">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
@@ -49,5 +58,5 @@
         </main>
     </div>
 </body>
-
+<script src="{{asset('lib/spinner/spinner.js')}}"></script>
 </html>
