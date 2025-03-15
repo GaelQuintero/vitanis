@@ -18,10 +18,11 @@
     <!-- Estilos de SweetAlert2 -->
     <link rel="stylesheet" href="{{ asset('lib/sweetalert/dark.css') }}">
     <meta id='csrf' name='csrf-token' content='{{ csrf_token() }}'>
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('vitanis-inventory-logo.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('lib/spinner/spinner.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="stylesheet" href="{{asset('lib/animation/style.css')}}">
     @viteReactRefresh
     {{-- @vite(['resources/css/app.css', 'resources/js/app.jsx']) --}}
 

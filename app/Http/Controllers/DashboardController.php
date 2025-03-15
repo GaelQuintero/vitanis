@@ -19,13 +19,17 @@ class DashboardController extends Controller
         $totalMovimientosEntrada = Movimiento::where('tipo', 'entrada')->count();
         $totalMovimientosSalida = Movimiento::where('tipo', 'salida')->count();
 
+        // Obtener los últimos 5 registros
+        $ultimosMovimientos = Movimiento::latest()->take(5)->get();
+
         // Pasar los datos a la vista
         return view('dashboard', compact(
-            'totalProductos', 
-            'totalCategorias', 
-            'totalMovimientos', 
-            'totalMovimientosEntrada', 
-            'totalMovimientosSalida'
+            'totalProductos',
+            'totalCategorias',
+            'totalMovimientos',
+            'totalMovimientosEntrada',
+            'totalMovimientosSalida',
+            'ultimosMovimientos'
         ));
     }
 }

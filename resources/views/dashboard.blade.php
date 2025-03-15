@@ -14,17 +14,17 @@
         </div>
     </div> --}}
 
-    <div class="container py-4">
+    <div class="container py-4 animate__animated animate__fadeIn">
 
-        <h2 class="mb-4">Bienvenido {{Auth::user()->name}} 🎉 </h2>
-    
+        <h2 class="mb-4">Bienvenido <span class="text-primary">{{ Auth::user()->name }}</span> 🎉</h2>
+
         <!-- Tarjetas de resumen -->
         <div class="row">
             <div class="col-md-3 mb-3">
                 <div class="card text-bg-primary shadow-lg">
                     <div class="card-body">
                         <h5 class="card-title">Total Productos</h5>
-                        <p class="card-text fs-4">{{$totalProductos}}</p>
+                        <p class="card-text fs-4">{{ $totalProductos }}</p>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 <div class="card text-bg-success shadow-lg">
                     <div class="card-body">
                         <h5 class="card-title">Total de categorias</h5>
-                        <p class="card-text fs-4">{{$totalCategorias}}</p>
+                        <p class="card-text fs-4">{{ $totalCategorias }}</p>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                 <div class="card text-bg-warning shadow-lg">
                     <div class="card-body">
                         <h5 class="card-title">Movimientos de entrada</h5>
-                        <p class="card-text fs-4">{{$totalMovimientosEntrada}}</p>
+                        <p class="card-text fs-4">{{ $totalMovimientosEntrada }}</p>
                     </div>
                 </div>
             </div>
@@ -48,46 +48,45 @@
                 <div class="card text-bg-danger shadow-lg">
                     <div class="card-body">
                         <h5 class="card-title">Movimientos de salida</h5>
-                        <p class="card-text fs-4">{{$totalMovimientosSalida}}</p>
+                        <p class="card-text fs-4">{{ $totalMovimientosSalida }}</p>
                     </div>
                 </div>
             </div>
         </div>
-    
+
         <!-- Tabla de órdenes recientes -->
-        {{-- <div class="card mt-4">
+        <div class="card mt-4">
             <div class="card-header bg-dark text-white">Movimientos recientes</div>
             <div class="card-body">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Cliente</th>
-                            <th>Estado</th>
-                            <th>Total</th>
-                            <th>Acción</th>
+                           
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Fecha</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>#00123</td>
-                            <td>Juan Pérez</td>
-                            <td><span class="badge bg-warning">Pendiente</span></td>
-                            <td>$250</td>
-                            <td><a href="#" class="btn btn-sm btn-outline-primary">Ver</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00124</td>
-                            <td>Ana Gómez</td>
-                            <td><span class="badge bg-success">Completado</span></td>
-                            <td>$540</td>
-                            <td><a href="#" class="btn btn-sm btn-outline-primary">Ver</a></td>
-                        </tr>
+                        @foreach ($ultimosMovimientos as $movimiento)
+                            <tr>
+                              
+                                <td>
+                                    @if ($movimiento->tipo === 'entrada')
+                                        <span class="badge text-bg-primary">{{ ucfirst($movimiento->tipo) }}</span>
+                                    @else
+                                    <span class="badge text-bg-danger">{{ ucfirst($movimiento->tipo) }}</span>
+                                    @endif
+                                </td>
+                                <td>{{ $movimiento->descripcion ?? 'Sin descripción' }}</td>
+                                <td>{{ $movimiento->created_at->format('d/m/Y H:i') }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
-        </div> --}}
-    
+        </div>
+
     </div>
 @endsection
 

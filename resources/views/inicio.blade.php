@@ -3,7 +3,7 @@
 @section('titulo', env('APP_NAME') . ' - Inicio')
 @extends('templates.nav')
 @section('body')
-    <div class=" container p-4" data-bs-theme="dark">
+    <div class=" container p-4 animate__animated animate__fadeIn" data-bs-theme="dark">
         <div class="row">
             <div class="col-md-12 mb-3 ">
                 <h4>Inicio</h4>
@@ -22,7 +22,7 @@
             <div class="col-md-12 mb-3 text-end">
                 <button class="btn me-2 btn-primary" onclick="drawChart();" id="buscarBtn">Buscar</button>
             </div>
-            <div class="col-md-12 mb-3">
+            <div class="col-md-12 mb-3 animate__animated animate__fadeIn">
                 <div id="chart_div" style="width: 100%; height: 100%;"></div>
             </div>
         </div>

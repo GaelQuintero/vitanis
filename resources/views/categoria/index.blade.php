@@ -3,7 +3,7 @@
 @section('titulo', env('APP_NAME') . ' - Inventario')
 @extends('templates.nav')
 @section('body')
-    <div class=" container p-4" data-bs-theme="dark">
+    <div class=" container p-4 animate__animated animate__fadeIn" data-bs-theme="dark">
         <div class="row">
             <div class="col-md-12 mb-3 text-end">
                 <a class="btn btn-primary rounded-3" href="{{route('dashboard')}}">Volver</a>
