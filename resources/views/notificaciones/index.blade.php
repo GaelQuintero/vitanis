@@ -1,6 +1,6 @@
 @extends('templates.base')
 
-@section('titulo', env('APP_NAME') . ' - Inventario')
+@section('title', env('APP_NAME') . 'Notificaciones')
 @extends('templates.nav')
 @section('body')
     <div class=" container p-4 animate__animated animate__fadeIn" data-bs-theme="dark">

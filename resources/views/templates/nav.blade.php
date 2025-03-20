@@ -23,7 +23,7 @@
                     <a class="nav-link" href="{{ route('movimientos.index') }}">Movimientos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('usuarios.index') }}">Usuario</a>
+                    <a class="nav-link" href="{{ route('usuarios.index') }}">Usuarios</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('notificaciones.index') }}">
