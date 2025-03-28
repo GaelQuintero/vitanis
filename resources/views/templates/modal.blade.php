@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-theme="dark">
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true" data-bs-theme="dark">
     <div id="modalSize" class="modal-dialog modal-dialog-centered modal-dialog-scrollable" data-bs-theme="dark">
         <div class="modal-content">
             <div class="my-0 py-0 modal-header" style="background: #20346A; padding: 0.5rem !important;">
