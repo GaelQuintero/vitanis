@@ -126,7 +126,7 @@
         };
 
         // Ejecutar cada 30 segundos
-        setInterval(checkNotifications, 50000);
+        setInterval(checkNotifications, 80000);
 
         // También ejecutar al cargar la página
         // checkNotifications();
