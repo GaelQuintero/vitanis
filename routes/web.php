@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('usuarios', UserController::class)->names('usuarios');
     Route::get('/inicio', [InventarioController::class, 'inicio'])->name('inicio');
     Route::get('/notificaciones', [NotificacionController::class, 'index'])->name('notificaciones.index');
+    Route::get('/check-notifications', [NotificacionController::class, 'checkNotifications'])->name('notifications.check');
     Route::patch('/notificaciones/{id}/leer', function ($id) {
         $notification = Auth::user()->notifications()->find($id);
         if ($notification) {
@@ -36,7 +37,7 @@ Route::middleware('auth')->group(function () {
         }
         return back();
     })->name('notificaciones.leer');
-    Route::get('/check-notifications', [NotificacionController::class, 'checkNotifications'])->name('notifications.check');
+
 
     // Route::get('/inventario/{id}', [InventarioController::class, 'show'])->name('inventario.show');
 });
