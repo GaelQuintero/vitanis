@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('lib/spinner/spinner.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
-    <link rel="stylesheet" href="{{asset('lib/animation/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('lib/animation/style.css') }}">
     @viteReactRefresh
     {{-- @vite(['resources/css/app.css', 'resources/js/app.jsx']) --}}
 
@@ -94,6 +94,43 @@
                 }
         }
     }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkNotifications = async () => {
+            try {
+                const response = await fetch("{{ route('notifications.check') }}");
+                const data = await response.json();
+
+                if (data.unread_count > 0) {
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'info',
+                        title: `Tienes ${data.unread_count} notificación(es) pendiente(s)`,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Ver',
+                        timer: 5000,
+                        theme: 'auto',
+                        timerProgressBar: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ route('notificaciones.index') }}";
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("Error obteniendo notificaciones:", error);
+            }
+        };
+
+        // Ejecutar cada 30 segundos
+        setInterval(checkNotifications, 10000);
+
+        // También ejecutar al cargar la página
+        // checkNotifications();
+    });
 </script>
 
 @stack('scripts')

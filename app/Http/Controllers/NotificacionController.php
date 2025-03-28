@@ -18,11 +18,20 @@ class NotificacionController extends Controller
         }
 
         // Obtener todas las notificaciones del usuario autenticado
-        $notificaciones = Auth::user()->notifications;
-        //$notificaciones = Auth::user()->unreadNotifications;
+        $notificaciones = Auth::user()->unreadNotifications;
+
+        //Limpiar notificaciones
+        Auth::user()->unreadNotifications->markAsRead();
 
         return view('notificaciones.index', compact('notificaciones'));
     }
 
- 
+    public function checkNotifications()
+    {
+        $notifications = Auth::user()->notifications()
+            ->whereNull('read_at') // Filtra solo las no leídas
+            ->count();
+
+        return response()->json(['unread_count' => $notifications]);
+    }
 }

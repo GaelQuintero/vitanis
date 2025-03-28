@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\FailedNotification;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\RegisterUsersRequest;
 
@@ -45,7 +46,7 @@ class UserController extends Controller
         $usuarios = User::all();
 
         // Enviar a la vista correcta
-        return view('usuarios.index', compact('usuarios'));
+        return view('usuarios.index', ['rol' => Auth::user()->rol], compact('usuarios'));
     }
 
     public function create()

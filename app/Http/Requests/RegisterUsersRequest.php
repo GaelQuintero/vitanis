@@ -14,7 +14,7 @@ class RegisterUsersRequest extends FormRequest
         return true;
     }
 
-  
+
     /**
      * Reglas de validación.
      */
@@ -24,6 +24,7 @@ class RegisterUsersRequest extends FormRequest
             'name' => ['required', 'min:3', 'max:50'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:8', 'max:50', 'confirmed'],
+            'rol'   => ['required', 'numeric', 'between : 1 , 2'],
 
         ];
     }

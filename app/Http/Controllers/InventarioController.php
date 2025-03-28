@@ -7,6 +7,7 @@ use App\Models\Categoria;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
 use App\Models\FailedNotification;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\RegisterProductRequest;
 // use App\Notifications\ProductCreateNotification;
@@ -42,7 +43,7 @@ class InventarioController extends Controller
             return response()->json(['data' => $data]);
         }
         $categorias = Categoria::all();
-        return view('inventario.index', compact('categorias'));
+        return view('inventario.index', ['rol' => Auth::user()->rol], compact('categorias'));
     }
 
     /**

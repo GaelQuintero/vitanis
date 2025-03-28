@@ -29,6 +29,7 @@ const initUsuariosTable = async () => {
             data: (d) => {
                 d.name = $("#name").val();
                 d.email = $("#email").val();
+                d.rol = $("#rol").val();
                 // d.codigo = $("#codigo").val();
                 // d.categoria_id = $("#categoria_id").val();
                 return d;
@@ -46,16 +47,33 @@ const initUsuariosTable = async () => {
                 render: (data) => data ?? "",
             },
             {
+                data: 'rol',
+                defaultContent: "",
+                render: (d) => {
+                    return d == 2 ? "Solo lectura" : "Administrador";
+                }
+            },
+            {
                 data: "fecha_registro",
                 defaultContent: "",
                 render: (data) => data ?? "",
             },
             {
                 data: null,
-                render: (d) =>
-                    `<button type="button" class="btn btn-primary" title="Editar" onclick="editar(${d.id})"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button type="button" class="btn btn-danger" title="Eliminar" onclick="eliminar(${d.id})"><i class="fa-regular fa-trash-can"></i></button>`,
-            },
+                render: (d) => {
+                    if (currentUserRol === 2) {
+                        return '';
+                    }
+
+                    return `
+                        <button type="button" class="btn btn-primary" title="Editar" onclick="editar(${d.id})">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger" title="Eliminar" onclick="eliminar(${d.id})">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>`;
+                }
+            }
         ],
     });
 };
@@ -209,7 +227,7 @@ const update = async (id) => {
     });
 
     // URL para registrar
-    const url = route("usuarios.update", id /*{ movimiento: id }*/ );
+    const url = route("usuarios.update", id /*{ movimiento: id }*/);
     // Tomar el formulario de registro por si id
     const form = document.getElementById("editFormUsuarios");
     // Crear un objeto formData

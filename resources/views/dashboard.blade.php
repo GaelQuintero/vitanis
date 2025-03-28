@@ -1,6 +1,6 @@
 @extends('templates.base')
 
-@section('title', 'Home')
+@section('title', env('APP_NAME') . ' - Home')
 @extends('templates.nav')
 @section('body')
     {{-- <div class="container py-5">
@@ -16,7 +16,13 @@
 
     <div class="container py-4 animate__animated animate__fadeIn">
 
-        <h2 class="mb-4">Bienvenido <span class="text-primary">{{ Auth::user()->name }}</span> 🎉</h2>
+        <h2 class="mb-4">Bienvenido
+            @if (Auth::user()->rol === 1)
+                <span class="text-primary">{{ Auth::user()->name }}</span> 🎉
+        </h2>
+    @else
+        <span class="text-success">{{ Auth::user()->name }}</span> 🎉</h2>
+        @endif
 
         <!-- Tarjetas de resumen -->
         <div class="row">
@@ -61,7 +67,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                           
+
                             <th>Tipo</th>
                             <th>Descripción</th>
                             <th>Fecha</th>
@@ -70,12 +76,12 @@
                     <tbody>
                         @foreach ($ultimosMovimientos as $movimiento)
                             <tr>
-                              
+
                                 <td>
                                     @if ($movimiento->tipo === 'entrada')
                                         <span class="badge text-bg-primary">{{ ucfirst($movimiento->tipo) }}</span>
                                     @else
-                                    <span class="badge text-bg-danger">{{ ucfirst($movimiento->tipo) }}</span>
+                                        <span class="badge text-bg-danger">{{ ucfirst($movimiento->tipo) }}</span>
                                     @endif
                                 </td>
                                 <td>{{ $movimiento->descripcion ?? 'Sin descripción' }}</td>

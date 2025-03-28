@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Models\FailedNotification;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\RegisterCategoryRequest;
 
@@ -47,7 +48,7 @@ class CategoriaController extends Controller
             return response()->json(['data' => $data]);
         }
         $categorias = Categoria::all();
-        return view('categoria.index', compact('categorias'));
+        return view('categoria.index', ['rol' => Auth::user()->rol], compact('categorias'));
     }
 
     /**

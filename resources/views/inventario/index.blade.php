@@ -1,13 +1,13 @@
 @extends('templates.base')
 
-@section('title', env('APP_NAME') . ' Inventario')
+@section('title', env('APP_NAME') . ' - Inventario')
 @extends('templates.nav')
 @section('body')
     <div class=" container p-4 animate__animated animate__fadeIn" data-bs-theme="dark">
         <div class="row">
-            <div class="col-md-12 mb-3 text-end">
+            {{-- <div class="col-md-12 mb-3 text-end">
                 <a class="btn btn-primary rounded-3" href="{{route('dashboard')}}">Volver</a>
-            </div>
+            </div> --}}
             <div class="col-md-12 mb-3 ">
                 <h4>Inventario</h4>
             </div>
@@ -34,7 +34,9 @@
             <div class="col-md-12 mb-3 text-end">
                 <button class="btn me-2 btn-primary" id="buscarBtn">Buscar</button>
                 <button class="btn me-2 btn-primary" id="limpiarBtn">Limpiar </button>
-                <button class="btn btn-primary" id="nuevoBtn">Nuevo </button>
+                @if (Auth::user()->rol === 1)
+                <button class="btn btn-primary" id="nuevoBtn">Nuevo</button>
+                @endif
             </div>
             <div class="col-md-12 mb-3">
                 <table class="table" id="table" data-bs-theme="dark">
@@ -58,4 +60,5 @@
 @endsection
 @push('styles')
     <script src="{{ asset('js/inventario.js') }}" defer></script>
+    <script> const currentUserRol = {{ Auth::user()->rol ?? 0 }};</script>
 @endpush

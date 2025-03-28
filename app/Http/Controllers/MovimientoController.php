@@ -7,6 +7,7 @@ use App\Models\Inventario;
 use App\Models\Movimiento;
 use Illuminate\Http\Request;
 use App\Models\FailedNotification;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\GeneralNotification;
 use App\Http\Requests\RegisterMovementRequest;
 
@@ -57,7 +58,7 @@ class MovimientoController extends Controller
     {
         //
         $productos = Inventario::all();
-        return view('movimientos.create', compact('productos'));
+        return view('movimientos.create',  ['rol' => Auth::user()->rol], compact('productos'));
     }
 
     /**

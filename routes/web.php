@@ -36,7 +36,9 @@ Route::middleware('auth')->group(function () {
         }
         return back();
     })->name('notificaciones.leer');
-    Route::get('/inventario/{id}', [InventarioController::class, 'show'])->name('inventario.show');
+    Route::get('/check-notifications', [NotificacionController::class, 'checkNotifications'])->name('notifications.check');
+
+    // Route::get('/inventario/{id}', [InventarioController::class, 'show'])->name('inventario.show');
 });
 
 require __DIR__ . '/auth.php';

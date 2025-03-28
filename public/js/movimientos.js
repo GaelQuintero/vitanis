@@ -61,9 +61,19 @@ const initMovimientosTable = async () => {
             },
             {
                 data: null,
-                render: (d) =>
-                    `<button type="button" class="btn btn-primary" title="Editar" onclick="editar(${d.id})"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button type="button" class="btn btn-danger" title="Eliminar" onclick="eliminar(${d.id})"><i class="fa-regular fa-trash-can"></i></button>`,
+                render: (d) => {
+                    if (currentUserRol === 2) {
+                        return '';
+                    }
+                    
+                    return `
+                        <button type="button" class="btn btn-primary" title="Editar" onclick="editar(${d.id})">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger" title="Eliminar" onclick="eliminar(${d.id})">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>`;
+                }
             },
         ],
     });

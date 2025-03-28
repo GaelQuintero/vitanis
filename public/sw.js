@@ -4,7 +4,7 @@ const filesToCache = [
     "/offline.html",
     "/css/app.css",
     "/js/app.js",
-    "/img/logo.png"
+    "/img/vitanis-inventory-logo.PNG"
 ];
 
 // Pre-carga los archivos en caché

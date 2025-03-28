@@ -20,18 +20,19 @@ class GeneralNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['database', 'mail']; // Guardar en la base de datos y enviar al correo
+        // return ['database', 'mail']; // Guardar en la base de datos y enviar al correo
+        return ['database'];
     }
 
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->subject($this->title)
-            ->greeting('¡Hola!')
-            ->line($this->message)
-            // ->action('Ver Detalles', url($this->url))
-            ->line('Gracias por usar nuestra aplicación.');
-    }
+    // public function toMail($notifiable)
+    // {
+    //     return (new MailMessage)
+    //         ->subject($this->title)
+    //         ->greeting('¡Hola!')
+    //         ->line($this->message)
+    //         // ->action('Ver Detalles', url($this->url))
+    //         ->line('Gracias por usar nuestra aplicación.');
+    // }
 
     public function toArray($notifiable)
     {
